@@ -22,6 +22,17 @@ public class City {
     public City() {
     }
 
+    public City(String name, Country country, String district, Integer population) {
+        this.name = name;
+        this.country = country;
+        this.district = district;
+        this.population = population;
+    }
+
+    public City(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -60,5 +71,16 @@ public class City {
 
     public void setPopulation(Integer population) {
         this.population = population;
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country=" + country +
+                ", district='" + district + '\'' +
+                ", population=" + population +
+                '}';
     }
 }

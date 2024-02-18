@@ -13,13 +13,7 @@ public class CityService {
       return cityDao.findAll();
   }
 
-  public City getById (Long id){
-     return cityDao.findById(id).
-             orElseThrow(()-> new CityNotFoundException(String.
-                     format("City not found! id = %d", id)));
-  }
 
-  public void deletedById(Long id){
-  }
+
 
 }

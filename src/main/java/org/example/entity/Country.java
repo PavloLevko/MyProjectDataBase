@@ -51,7 +51,7 @@ public class Country {
         @Column(name = "head_of_state")
         private String headOfState;
 
-        @OneToOne
+        @OneToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "capital")
         private City city;
 
@@ -196,5 +196,11 @@ public class Country {
 
         public void setLanguages(Set<CountryLanguage> languages) {
                 this.languages = languages;
+        }
+
+        @Override
+        public String toString() {
+                return "\'" +
+                         name+ "\'";
         }
 }
