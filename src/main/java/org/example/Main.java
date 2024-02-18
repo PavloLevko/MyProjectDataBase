@@ -21,9 +21,14 @@ public class Main {
     private static CountryDao countryDao = new CountryDao();
 
     public static void main(String[] args) {
+        Country ukraine = new Country();
 
 
-          City city = new City();
+          City busk = new City();
+          busk.setName("Busk");
+          busk.setCountry(ukraine);
+          busk.setDistrict("Zolochivskiy");
+          busk.setPopulation(8000);
 
 
 //        jedis.set ("user", "22");
@@ -32,8 +37,8 @@ public class Main {
 //        List<City> all = cityDao.findAll();
 //        System.out.println(all);
 
-       Optional <City> cityName = cityDao.findByName("Lviv");
-        System.out.println(cityName.toString());
+          cityDao.save(busk);
+
 
 
 //        City oran = cityDao.findByName("Oran");

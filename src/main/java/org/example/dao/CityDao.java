@@ -3,6 +3,7 @@ import org.example.config.SessionFactoryProvider;
 import org.example.entity.City;
 import org.example.exception.CityNotFoundException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.io.Serializable;
@@ -82,7 +83,16 @@ public class CityDao implements DaoOperation<City, Integer> {
 
     @Override
     public void save(City city) {
+        try(Session session = factory.openSession()){
+            Transaction transaction = session.beginTransaction();
+//            Query executeUpdate = session.createQuery("INSERT INTO City (name, district, population) VALUE (:name, :district, :population) ")
+//                    .setParameter("name", city.getName()).
+//                    setParameter("district", city.getDistrict()).
+//                    setParameter("population", city.getPopulation());
+            session.persist(city);
+              transaction.commit();
 
+        }
 
     }
 
@@ -92,8 +102,23 @@ public class CityDao implements DaoOperation<City, Integer> {
 
     @Override
     public void deletedById(Integer id) {
+        try (Session session = factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            int deletedResult = session.createQuery("DELETE FROM City where id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+            transaction.commit();
+
+            if (deletedResult == 0) {
+                //add log City doesn't deleted
+                throw new CityNotFoundException("City with id: " + id + " can't be found!");
+            } else {
+                //add log City was deleted
+                System.out.println("Deleted was successful");
+            }
 
 
+        }
     }
     public static CityDao getInstance(){
         return INSTANCE;
