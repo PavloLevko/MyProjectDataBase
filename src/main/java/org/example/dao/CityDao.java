@@ -52,21 +52,6 @@ public class CityDao implements DaoOperation<City, Integer> {
     }
 
     @Override
-//    public Optional<City> findById(Integer id) {
-//        Session session = factory.openSession();
-//        Query<City> query = session.createQuery("SELECT c FROM City c WHERE c.id = :id", City.class);
-//        query.setParameter("id", id);
-//        City city = query.uniqueResult();
-//        if (city == null) {
-//            throw new CityNotFoundException("City with id: " + id + " not found.");
-//
-//        } else {
-//
-//
-//            return Optional.ofNullable(city);
-//
-//        }
-//    }
     public Optional<City> findById(Integer id) {
         try (Session session = factory.openSession()) {
             Query<City> query = session.createQuery("SELECT c FROM City c WHERE c.id = :id", City.class);
@@ -85,10 +70,6 @@ public class CityDao implements DaoOperation<City, Integer> {
     public void save(City city) {
         try(Session session = factory.openSession()){
             Transaction transaction = session.beginTransaction();
-//            Query executeUpdate = session.createQuery("INSERT INTO City (name, district, population) VALUE (:name, :district, :population) ")
-//                    .setParameter("name", city.getName()).
-//                    setParameter("district", city.getDistrict()).
-//                    setParameter("population", city.getPopulation());
             session.persist(city);
               transaction.commit();
 
@@ -98,6 +79,9 @@ public class CityDao implements DaoOperation<City, Integer> {
 
     @Override
     public void update(City city) {
+        Session session = factory.openSession();
+        session.update(city);
+
     }
 
     @Override
@@ -116,10 +100,10 @@ public class CityDao implements DaoOperation<City, Integer> {
                 //add log City was deleted
                 System.out.println("Deleted was successful");
             }
-
-
         }
     }
+
+
     public static CityDao getInstance(){
         return INSTANCE;
     }

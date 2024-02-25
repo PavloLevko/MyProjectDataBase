@@ -67,6 +67,13 @@ public class CountryLanguage {
     public void setPercentage(BigDecimal percentage) {
         this.percentage = percentage;
     }
+
+    @Override
+    public String toString() {
+        return "CountryLanguage{" +
+                ", language='" + language + '\'' +
+                '}';
+    }
 }
 
 

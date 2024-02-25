@@ -200,7 +200,14 @@ public class Country {
 
         @Override
         public String toString() {
-                return "\'" +
-                         name+ "\'";
+                return "Country{" +
+                        "id=" + id +
+                        ", code='" + code + '\'' +
+                        ", alternativeCode='" + alternativeCode + '\'' +
+                        ", name='" + name + '\'' +
+                        ", continent=" + continent +
+                        ", region='" + region + '\'' +
+                        ", languages=" + languages +
+                        '}';
         }
 }

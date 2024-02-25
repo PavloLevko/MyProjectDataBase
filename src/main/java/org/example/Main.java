@@ -1,34 +1,45 @@
 package org.example;
+import org.example.RedisConfig.Redis;
 import org.example.config.SessionFactoryProvider;
 import org.example.dao.CityDao;
 import org.example.dao.CountryDao;
 import org.example.entity.City;
-import org.example.entity.Country;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import redis.clients.jedis.Jedis;
+import org.example.service.CityService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static java.util.Objects.nonNull;
 
 public class Main {
     private static   final org.hibernate.SessionFactory sessionFactory = SessionFactoryProvider.getSessionFactory();
-    private static final Jedis jedis = new Jedis("localhost", 6379);
-    private static CityDao cityDao = new CityDao();
-    private static CountryDao countryDao = new CountryDao();
+
+    private static CityDao cityDao = CityDao.getInstance();
+    private static CountryDao countryDao = CountryDao.getInstance();
+    private static CityService cityService = new CityService();
+    private static redis.clients.jedis.Jedis jedis = Redis.getInstance();
 
     public static void main(String[] args) {
-        Country ukraine = new Country();
+
+        long startMysql = System.currentTimeMillis();
+        List<City> all = cityDao.findAll();
+        long stopMysql = System.currentTimeMillis();
+        System.out.printf("%s:\t%d ms\n", "MySQL", (stopMysql - startMysql));
 
 
-          City busk = new City();
-          busk.setName("Busk");
-          busk.setCountry(ukraine);
-          busk.setDistrict("Zolochivskiy");
-          busk.setPopulation(8000);
+
+//
+//        Country ukraine = countryDao.findByName("Ukraine");
+//
+//
+//        City busk = new City();
+//          busk.setName("Yavoryv");
+//          busk.setCountry(ukraine);
+//          busk.setDistrict("Lviv");
+//          busk.setPopulation(4000);
+//
+//
+//         cityDao.save(busk);
+
+//        Optional<City> busk = cityDao.findByName("Busk");
+//        System.out.println(busk);
 
 
 //        jedis.set ("user", "22");
@@ -36,8 +47,15 @@ public class Main {
 //        System.out.println(user);
 //        List<City> all = cityDao.findAll();
 //        System.out.println(all);
+//
+//        Optional<City> lviv = cityDao.findByName("Lviv");
+//        System.out.println(lviv);
 
-          cityDao.save(busk);
+//        Optional<Country> ukraine1 = countryDao.findByName("Ukrane");
+//        System.out.println(ukraine1);
+
+//        Optional<City> lviv = cityService.getCityByName("Lviv");
+//        System.out.println(lviv);
 
 
 
