@@ -1,4 +1,5 @@
 package org.example.dao;
+
 import org.example.config.SessionFactoryProvider;
 import org.example.entity.City;
 import org.example.exception.CityNotFoundException;
@@ -19,31 +20,27 @@ public class CityDao implements DaoOperation<City, Integer> {
 
     public Optional<City> findByName(String name) {
 
-      try (Session session = factory.openSession()){
-        Query query = session.createQuery("FROM City c WHERE name = :name");
-        query.setParameter("name", name);
-        City city = (City) query.uniqueResult();
-        if (city == null) {
-            throw new CityNotFoundException("City with name: " + name + " not found.");
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("FROM City c WHERE name = :name");
+            query.setParameter("name", name);
+            City city = (City) query.uniqueResult();
+            if (city == null) {
+                throw new CityNotFoundException("City with name: " + name + " not found.");
+            }
+            return Optional.of(city);
+        } catch (
+                Exception e) {
+            return Optional.empty();
         }
-        return Optional.of(city);
-    } catch(
-    Exception e)
-
-    {
-        return Optional.empty();
     }
-
-}
-
 
 
     public Long getTotalCount() {
         Session session = factory.openSession();
         Query query = session.createQuery("SELECT count(c) FROM City c", City.class);
         return (Long) query.uniqueResult();
-
     }
+
     @Override
     public List<City> findAll() {
         Session session = factory.openSession();
@@ -68,13 +65,11 @@ public class CityDao implements DaoOperation<City, Integer> {
 
     @Override
     public void save(City city) {
-        try(Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             Transaction transaction = session.beginTransaction();
             session.persist(city);
-              transaction.commit();
-
+            transaction.commit();
         }
-
     }
 
     @Override
@@ -103,8 +98,7 @@ public class CityDao implements DaoOperation<City, Integer> {
         }
     }
 
-
-    public static CityDao getInstance(){
+    public static CityDao getInstance() {
         return INSTANCE;
     }
 }

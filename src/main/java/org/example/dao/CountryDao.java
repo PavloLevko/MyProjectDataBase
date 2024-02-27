@@ -8,7 +8,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 import java.util.Optional;
 
-public class CountryDao implements DaoOperation<Country,Integer>{
+public class CountryDao implements DaoOperation<Country, Integer> {
     private static final CountryDao INSTANCE = new CountryDao();
     private org.hibernate.SessionFactory factory = SessionFactoryProvider.getSessionFactory();
 
@@ -26,16 +26,18 @@ public class CountryDao implements DaoOperation<Country,Integer>{
     public Optional<Country> findById(Integer id) {
         Session session = factory.openSession();
         Query<Country> query = session.createQuery("SELECT c FROM Country c WHERE c.id= :id", Country.class);
-         query.setParameter("id", id);
+        query.setParameter("id", id);
         return Optional.empty();
     }
-    public Country findByName (String name){
+
+    public Country findByName(String name) {
         Session session = factory.openSession();
         Query<Country> query = session.createQuery("FROM Country WHERE name = :name", Country.class);
         query.setParameter("name", name);
         return query.uniqueResult();
     }
-    public Integer getIdCountryByName(String name){
+
+    public Integer getIdCountryByName(String name) {
         Session session = factory.openSession();
         Query<Country> query = session.createQuery("SELECT c.id FROM Country c WHERE name = :name", Country.class);
         query.setParameter("name", name);
@@ -59,9 +61,8 @@ public class CountryDao implements DaoOperation<Country,Integer>{
     public void deletedById(Integer integer) {
 
     }
-    public static CountryDao getInstance(){
+
+    public static CountryDao getInstance() {
         return INSTANCE;
     }
 }
-
-

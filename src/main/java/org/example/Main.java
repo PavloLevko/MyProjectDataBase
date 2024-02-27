@@ -1,5 +1,5 @@
 package org.example;
-import org.example.RedisConfig.Redis;
+import org.example.DataCache.RedisDataCache;
 import org.example.config.SessionFactoryProvider;
 import org.example.dao.CityDao;
 import org.example.dao.CountryDao;
@@ -14,14 +14,17 @@ public class Main {
     private static CityDao cityDao = CityDao.getInstance();
     private static CountryDao countryDao = CountryDao.getInstance();
     private static CityService cityService = new CityService();
-    private static redis.clients.jedis.Jedis jedis = Redis.getInstance();
+    private static RedisDataCache redis = new RedisDataCache();
 
     public static void main(String[] args) {
 
-        long startMysql = System.currentTimeMillis();
-        List<City> all = cityDao.findAll();
-        long stopMysql = System.currentTimeMillis();
-        System.out.printf("%s:\t%d ms\n", "MySQL", (stopMysql - startMysql));
+//        long startMysql = System.currentTimeMillis();
+//        List<City> all = cityDao.findAll();
+//        long stopMysql = System.currentTimeMillis();
+//        System.out.printf("%s:\t%d ms\n", "MySQL", (stopMysql - startMysql));
+
+        String city = redis.getDataFromCache("Lviv");
+        System.out.println(city);
 
 
 
