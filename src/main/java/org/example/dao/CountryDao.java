@@ -54,6 +54,8 @@ public class CountryDao implements DaoOperation<Country, Integer> {
 
     @Override
     public void update(Country country) {
+        Session session = factory.openSession();
+        session.update(country);
 
     }
 

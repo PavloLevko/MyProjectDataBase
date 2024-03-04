@@ -1,4 +1,5 @@
 package org.example;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.example.DataCache.RedisDataCache;
 import org.example.config.SessionFactoryProvider;
 import org.example.dao.CityDao;
@@ -7,6 +8,7 @@ import org.example.entity.City;
 import org.example.service.CityService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Main {
     private static   final org.hibernate.SessionFactory sessionFactory = SessionFactoryProvider.getSessionFactory();
@@ -16,17 +18,19 @@ public class Main {
     private static CityService cityService = new CityService();
     private static RedisDataCache redis = new RedisDataCache();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
 
 //        long startMysql = System.currentTimeMillis();
 //        List<City> all = cityDao.findAll();
 //        long stopMysql = System.currentTimeMillis();
 //        System.out.printf("%s:\t%d ms\n", "MySQL", (stopMysql - startMysql));
 
-        String city = redis.getDataFromCache("Lviv");
-        System.out.println(city);
+        for (int i = 0; i <13 ; i++) {
 
 
+            Optional<City> cityById = cityService.getCityById(56);
+            System.out.println(cityById);
+        }
 
 //
 //        Country ukraine = countryDao.findByName("Ukraine");

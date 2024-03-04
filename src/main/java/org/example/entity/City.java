@@ -1,22 +1,26 @@
 package org.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
 @Table(schema = "world", name = "city")
 public class City {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    @JsonProperty("name")
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
+    @JsonProperty("country_id")
     private Country country;
 
+    @JsonProperty("district")
     private String district;
-
+    @JsonProperty("population")
     private Integer population;
 
     public City() {
