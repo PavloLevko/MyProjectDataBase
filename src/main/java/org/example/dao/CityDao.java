@@ -1,13 +1,13 @@
 package org.example.dao;
-
 import org.example.config.SessionFactoryProvider;
 import org.example.entity.City;
 import org.example.exception.CityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +19,6 @@ public class CityDao implements DaoOperation<City, Integer> {
     }
 
     public Optional<City> findByName(String name) {
-
         try (Session session = factory.openSession()) {
             Query query = session.createQuery("FROM City c WHERE name = :name");
             query.setParameter("name", name);
