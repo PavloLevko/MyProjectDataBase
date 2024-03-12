@@ -25,40 +25,32 @@ public class CityService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CityService.class);
     private final CityDao cityDao = CityDao.getInstance();
     private final CountryDao countryDao = CountryDao.getInstance();
-   private static RedisDataCache redis = new RedisDataCache();
-   private static ObjectMapper objectMapper = new ObjectMapper();
+    private static RedisDataCache redis = RedisDataCache.getInstance();
     private static final byte CACHE_DATA_START_WRITE = 10;
-    private static byte counterGetAllCity = 0;
-    private static byte counterCityByName = 0;
-    private static byte counterGetCountOfCity = 0;
     private static byte counterGetCityById = 0;
-    private static byte counterGetAllCountry = 0;
+
 
     public List<City> getAllCity() {
         LOGGER.info("Method getAllCity started");
-        counterGetAllCity++;
         return cityDao.findAll();
     }
 
     public Optional<City> getCityByName(String name) {
         LOGGER.info("Method getCityByName started");
-        counterCityByName++;
         return cityDao.findByName(name);
     }
 
-    public void addCity(City city, Country country) {
+    public void addCity(City city) {
         LOGGER.info("Method addCountry started");
         cityDao.save(city);
     }
 
     public Long getCountOfCity() {
         LOGGER.info("Method getCountOfCity started");
-        counterGetCountOfCity++;
-
         return cityDao.getTotalCount();
     }
 
-    public String getCityById(Integer id) throws JsonProcessingException {
+    public String getCityById(Integer id) {
         LOGGER.info("Method getCityById started");
         Optional<City> cityById = Optional.empty();
         counterGetCityById++;
@@ -88,7 +80,6 @@ public class CityService {
 
     public List<Country> getAllCountry() {
         LOGGER.info("Method getAllCountry started");
-        counterGetAllCountry++;
         return countryDao.findAll();
     }
 

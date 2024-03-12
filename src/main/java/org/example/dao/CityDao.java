@@ -1,12 +1,12 @@
 package org.example.dao;
+
 import org.example.config.SessionFactoryProvider;
 import org.example.entity.City;
 import org.example.exception.CityNotFoundException;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,12 +23,9 @@ public class CityDao implements DaoOperation<City, Integer> {
             Query query = session.createQuery("FROM City c WHERE name = :name");
             query.setParameter("name", name);
             City city = (City) query.uniqueResult();
-            if (city == null) {
-                throw new CityNotFoundException("City with name: " + name + " not found.");
-            }
-            return Optional.of(city);
-        } catch (
-                Exception e) {
+            return Optional.ofNullable(city);
+        } catch (HibernateException e) {
+            e.printStackTrace();
             return Optional.empty();
         }
     }
@@ -36,14 +33,14 @@ public class CityDao implements DaoOperation<City, Integer> {
 
     public Long getTotalCount() {
         Session session = factory.openSession();
-        Query query = session.createQuery("SELECT count(c) FROM City c", City.class);
+        Query query = session.createQuery("SELECT COUNT(c) FROM City c");
         return (Long) query.uniqueResult();
     }
 
     @Override
     public List<City> findAll() {
         Session session = factory.openSession();
-        Query query = session.createQuery("from City", City.class);
+        Query query = session.createQuery("from City");
         return query.getResultList();
     }
 
@@ -74,7 +71,9 @@ public class CityDao implements DaoOperation<City, Integer> {
     @Override
     public void update(City city) {
         Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
         session.update(city);
+        transaction.commit();
 
     }
 
@@ -88,10 +87,8 @@ public class CityDao implements DaoOperation<City, Integer> {
             transaction.commit();
 
             if (deletedResult == 0) {
-                //add log City doesn't deleted
                 throw new CityNotFoundException("City with id: " + id + " can't be found!");
             } else {
-                //add log City was deleted
                 System.out.println("Deleted was successful");
             }
         }
