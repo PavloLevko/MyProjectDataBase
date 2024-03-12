@@ -1,25 +1,13 @@
 package org.example.service;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import net.bytebuddy.dynamic.DynamicType;
 import org.example.DataCache.RedisDataCache;
 import org.example.dao.CityDao;
 import org.example.dao.CountryDao;
-import org.example.dao.DaoOperation;
 import org.example.entity.City;
 import org.example.entity.Country;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 public class CityService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CityService.class);
