@@ -22,11 +22,6 @@ public class RedisDataCache {
         return dataFromCache;
     }
 
-    public byte methodCounter(byte couner) {
-        couner++;
-        return couner;
-    }
-
     public static final RedisDataCache getInstance() {
         return INSTANCE;
     }
